@@ -192,8 +192,7 @@ html {
 }
 .cloud.text,
 .cloud_5 {
-  top: 27rem;
-  transform: translateX(-50%);
+  top: 24rem;
   width: 100%;
   text-align: center;
   font-size: 1.5rem;
