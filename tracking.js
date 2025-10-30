@@ -18,36 +18,29 @@ async function loadData() {
 
 // ======================
 // 📊 AUTO CHECK VERSION
-const GITHUB_TOKEN =
-  "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"; // 🔒 GitHub token ở bước trên
 async function checkVersion() {
   try {
-    const res = await fetch(
-      "https://api.github.com/repos/DEV-trongphuc/flip_game/contents/version.txt.txt",
-      {
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          "Cache-Control": "no-cache",
-        },
-      }
-    );
-    const data = await res.json();
-    const version = atob(data.content).trim();
+    const url = `https://dev-trongphuc.github.io/flip_game/version.txt.txt?v=${Date.now()}`;
+    const res = await fetch(url, { cache: "no-store" });
+    const version = await res.text();
+    const trimmed = version.trim();
+    console.log("📦 Version fetch về:", trimmed);
 
     if (currentVersion === null) {
-      currentVersion = version;
+      currentVersion = trimmed;
       await loadData();
-    } else if (version !== currentVersion) {
+    } else if (trimmed !== currentVersion) {
       console.log("🔁 Có cập nhật mới, reload data...");
-      currentVersion = version;
+      currentVersion = trimmed;
       await loadData();
     }
   } catch (err) {
     console.error("⚠️ Lỗi khi check version:", err);
   }
 }
+
 // Check mỗi 5s
-setInterval(checkVersion, 10000);
+setInterval(checkVersion, 5000);
 checkVersion();
 
 // ===============================
