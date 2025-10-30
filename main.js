@@ -288,7 +288,7 @@ spinBtn.addEventListener("click", () => {
   const finalAngle = extraSpin + resultAngles[result];
 
   // reset và xoay
-  wheel.style.transition = "transform 3s";
+  wheel.style.transition = "transform 4.5s";
   wheel.style.transform = `rotate(${finalAngle}deg)`;
 
   // sau khi quay xong
@@ -323,7 +323,7 @@ spinBtn.addEventListener("click", () => {
     }
 
     isSpinning = false;
-  }, 3500);
+  }, 5000);
 });
 // window.addEventListener("load", () => {
 //   const saved = JSON.parse(localStorage.getItem("game_data") || "{}");
