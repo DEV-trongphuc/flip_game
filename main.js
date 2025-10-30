@@ -260,6 +260,7 @@ const vouchers = [
 spinBtn.addEventListener("click", () => {
   if (isSpinning) return;
   isSpinning = true;
+  spinBtn.style.display = "none";
 
   // random kết quả theo tỉ lệ
   const rand = Math.random() * 100;
