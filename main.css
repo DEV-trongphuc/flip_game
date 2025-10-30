@@ -352,7 +352,7 @@ html {
   transform: translateX(1rem);
 }
 .game_block > img {
-  width: 8.5rem;
+  width: calc(24% - 0.5rem);
 }
 .game_timer {
   height: 1rem;
@@ -398,7 +398,7 @@ html {
 }
 
 .game_block .card_item {
-  flex: 1 0 calc(25% - 0.5rem);
+  flex: 1 0 calc(24% - 0.5rem);
   box-sizing: border-box;
   opacity: 0;
 }
