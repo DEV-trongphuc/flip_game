@@ -318,15 +318,15 @@ spinBtn.addEventListener("click", () => {
     isSpinning = false;
   }, 5000);
 });
-// window.addEventListener("load", () => {
-//   const saved = JSON.parse(localStorage.getItem("game_data") || "{}");
-//   if (saved.reward) {
-//     showVoucher(saved.reward, saved.email);
-//   }
-// });
+window.addEventListener("load", () => {
+  const saved = JSON.parse(localStorage.getItem("game_data") || "{}");
+  if (saved.reward) {
+    showVoucher(saved.reward, saved.email);
+  }
+});
 function showVoucher(reward, mail) {
   voucherCode.src =
-    "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example";
+    `https://api.qrserver.com/v1/create-qr-code/?size=150x150&datahttps://flip-game-gules.vercel.app/?code=${mail}`;
   voucherBox.classList.add("active");
   voucherImg.src = reward.img;
   voucherText.innerHTML = `
@@ -430,10 +430,15 @@ document.addEventListener("DOMContentLoaded", async () => {
           `https://script.google.com/macros/s/AKfycbysS95cseVSb9HUgINWjMHQik3rilXTqoPtyofeGBau7VChbrbXy7HiKLFuB339lGkl/exec`,
           {
             method: "POST",
+            mode: "no-cors",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email: code }),
           }
         );
+        console.log(res);
+        const text = await res.text();
+        console.log("Response text:", text);
+
         const result = await res.json();
         console.log("🪄 Update result:", result);
 
