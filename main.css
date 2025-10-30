@@ -127,6 +127,9 @@ html {
   border-radius: 15px;
   z-index: 99;
 }
+.main_voucher_check {
+  z-index: 9999;
+}
 .main_voucher_check .text,
 .main_voucher .text {
   width: 100%;
@@ -299,6 +302,11 @@ html {
   font-weight: bold;
   border-radius: 50rem;
   margin-top: 2rem;
+}
+.check_btn.disable {
+  background-color: #333333b0;
+  opacity: 0.8;
+  pointer-events: none;
 }
 .main_voucher_check.active,
 .main_voucher.active,
