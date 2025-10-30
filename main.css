@@ -117,8 +117,9 @@ html {
 .main_voucher {
   background-color: rgb(255, 255, 255);
   width: 95%;
-  height: 50vh;
+  height: 50rem;
   top: 45%;
+  line-height: 1.6;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 15px;
