@@ -27,6 +27,12 @@ const animalImgs = [
   "./assets/card/card (7).png",
   "./assets/card/card (8).png",
 ];
+const vouchersIMG = [
+  "./assets/vouchers/voucher (1).png",
+  "./assets/vouchers/voucher (3).png",
+  "./assets/vouchers/voucher (4).png",
+  "./assets/vouchers/voucher (5).png",
+];
 
 // 👉 Nhân đôi & trộn ngẫu nhiên
 let cards = [...animalImgs, ...animalImgs]
@@ -192,20 +198,6 @@ const gameFlip = document.querySelector(".main_game_flip");
 
 gameFlip.style.display = "none"; // ẩn game trước
 
-startBtn.addEventListener("click", () => {
-  welcome.style.animation = "slideOut 0.5s ease forwards";
-  setTimeout(() => {
-    welcome.style.display = "none";
-    gameFlip.style.display = "flex";
-    gameFlip.classList.add("active");
-    renderCards(true);
-    // ✅ Bắt đầu đếm thời gian khi vào game
-  }, 800);
-  setTimeout(() => {
-    startTimer();
-  }, 2500);
-});
-
 const submitBtn = document.querySelector(".submit_btn");
 const status = document.getElementById("status");
 const mainSpin = document.querySelector(".main_spin");
@@ -344,29 +336,42 @@ function showVoucher(reward, mail) {
 }
 
 // ✅ Hàm preload ảnh (trả về Promise khi tất cả ảnh load xong)
-function preloadImages(imageArray) {
-  return Promise.all(
-    imageArray.map(
-      (src) =>
-        new Promise((resolve) => {
-          const img = new Image();
-          img.src = src;
-          img.onload = resolve;
-          img.onerror = resolve; // tránh bị kẹt nếu ảnh lỗi
-        })
-    )
-  );
-}
-const vouchersIMG = [
-  "./assets/vouchers/voucher (1).png",
-  "./assets/vouchers/voucher (3).png",
-  "./assets/vouchers/voucher (4).png",
-  "./assets/vouchers/voucher (5).png",
-];
+function preloadImages(imagePaths) {
+  return new Promise((resolve) => {
+    let loadedCount = 0;
+    const total = imagePaths.length;
 
-preloadImages(animalImgs).then(() => {
-  console.log("✅ Ảnh đã preload xong!");
-});
-preloadImages(vouchersIMG).then(() => {
-  console.log("✅ Ảnh đã preload xong!");
-});
+    if (total === 0) {
+      resolve(); // không có ảnh thì resolve luôn
+      return;
+    }
+
+    imagePaths.forEach((path) => {
+      const img = new Image();
+      img.onload = img.onerror = () => {
+        loadedCount++;
+        if (loadedCount === total) {
+          resolve();
+        }
+      };
+      img.src = path;
+    });
+  });
+}
+Promise.all([preloadImages(animalImgs), preloadImages(vouchersIMG)]).then(
+  () => {
+    startBtn.addEventListener("click", () => {
+      welcome.style.animation = "slideOut 0.5s ease forwards";
+      setTimeout(() => {
+        welcome.style.display = "none";
+        gameFlip.style.display = "flex";
+        gameFlip.classList.add("active");
+        renderCards(true);
+        // ✅ Bắt đầu đếm thời gian khi vào game
+      }, 800);
+      setTimeout(() => {
+        startTimer();
+      }, 2500);
+    });
+  }
+);
