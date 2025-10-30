@@ -376,3 +376,78 @@ Promise.all([preloadImages(animalImgs), preloadImages(vouchersIMG)]).then(
     });
   }
 );
+document.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+  if (!code) return;
+
+  const voucherBox = document.querySelector(".main_voucher_check");
+  const voucherImg = voucherBox.querySelector("img");
+  const voucherText = voucherBox.querySelector(".text");
+
+  voucherBox.classList.add("active");
+
+  try {
+    // 🪄 Fetch từ Apps Script
+    const res = await fetch(
+      `https://script.google.com/macros/s/AKfycbysS95cseVSb9HUgINWjMHQik3rilXTqoPtyofeGBau7VChbrbXy7HiKLFuB339lGkl/exec?email=${encodeURIComponent(
+        code
+      )}`
+    );
+    const data = await res.json();
+
+    if (!data || data.error) {
+      voucherText.innerHTML = `
+        <p><b>Voucher:</b> Không tìm thấy thông tin voucher</p>
+        <p><b>Status:</b> ❌ Không hợp lệ</p>
+      `;
+      return;
+    }
+
+    const used = data.is_used && data.is_used !== "";
+    const dateStr = used ? data.is_used : "30/11/2025";
+
+    voucherImg.src = "./assets/imgs/voucher.png";
+    voucherText.innerHTML = `
+      <p><b>Voucher:</b> ${data.voucher_name}</p>
+      <p><b>Phone:</b> ${data.name || "-"}</p>
+      <p><b>Email:</b> ${data.phone || "-"}</p>
+      <p><b>Status:</b> ${used ? "Used" : "Available"}</p>
+      <p><b>Date:</b> ${dateStr}</p>
+      <p class="check_btn ${used ? "disable" : ""}">
+        ${used ? "REDEEMED" : "CONFIRM"}
+      </p>
+    `;
+
+    // ⚡ Gắn lại listener cho nút CONFIRM
+    const newBtn = voucherText.querySelector(".check_btn");
+    if (!used) {
+      newBtn.addEventListener("click", async () => {
+        newBtn.classList.add("disable");
+        newBtn.textContent = "REDEEMED";
+
+        const res = await fetch(
+          `https://script.google.com/macros/s/AKfycbysS95cseVSb9HUgINWjMHQik3rilXTqoPtyofeGBau7VChbrbXy7HiKLFuB339lGkl/exec`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: code }),
+          }
+        );
+        const result = await res.json();
+        console.log("🪄 Update result:", result);
+
+        // 🧾 Cập nhật UI sau khi dùng
+        if (result.success) {
+          voucherText.querySelector("p:nth-child(4)").innerHTML =
+            "<b>Status:</b> USED";
+          voucherText.querySelector(
+            "p:nth-child(5)"
+          ).innerHTML = `<b>Date:</b> ${result.used_at}`;
+        }
+      });
+    }
+  } catch (err) {
+    console.error("❌ Lỗi khi fetch voucher:", err);
+  }
+});
