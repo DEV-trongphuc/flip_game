@@ -238,7 +238,7 @@ const vouchers = [
   {
     id: 1,
     name: "Free a Chura Nigiri Set",
-    img: "./assets/vouchers/voucher (1).png",
+    img: "./assets/vouchers/voucher (3).png",
     at: "En Group, 116 Pasteur",
     date: "30/11/2025",
   },
@@ -259,7 +259,7 @@ const vouchers = [
   {
     id: 4,
     name: "Free 1 Fried Gyoza",
-    img: "./assets/vouchers/voucher (3).png",
+    img: "./assets/vouchers/voucher (1).png",
     at: "The Waterbomb 2025",
     date: "Redeem NOW",
   },
@@ -284,11 +284,11 @@ spinBtn.addEventListener("click", () => {
     4: 110,
   };
 
-  const extraSpin = 360 * 5;
+  const extraSpin = 360 * 4;
   const finalAngle = extraSpin + resultAngles[result];
 
   // reset và xoay
-  wheel.style.transition = "transform 3s ease-out";
+  wheel.style.transition = "transform 3s";
   wheel.style.transform = `rotate(${finalAngle}deg)`;
 
   // sau khi quay xong
@@ -323,7 +323,7 @@ spinBtn.addEventListener("click", () => {
     }
 
     isSpinning = false;
-  }, 3000);
+  }, 3500);
 });
 // window.addEventListener("load", () => {
 //   const saved = JSON.parse(localStorage.getItem("game_data") || "{}");
