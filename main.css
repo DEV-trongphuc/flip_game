@@ -137,6 +137,9 @@ html {
   color: var(--mainClr);
   font-weight: bold;
 }
+.main_voucher > img:first-child {
+  width: 25rem;
+}
 .main_voucher {
   height: max-content;
   padding: 1rem;
@@ -179,7 +182,7 @@ html {
 }
 .cloud_4 {
   top: 20%;
-  right: -15%;
+  right: -20%;
 }
 .voucher_code {
   position: relative;
@@ -193,7 +196,7 @@ html {
 }
 .cloud.text,
 .cloud_5 {
-  top: 24rem;
+  top: 25rem;
   width: 100%;
   text-align: center;
   font-size: 1.5rem;
@@ -322,7 +325,7 @@ html {
 }
 .button {
   position: absolute;
-  top: 40%;
+  top: 45%;
   transform: translate(-50%, -50%);
   width: 20rem;
 }
@@ -344,12 +347,12 @@ html {
   cursor: pointer;
 }
 .main_spin .wheel {
-  width: 95vw;
+  width: 90%;
   transition: transform 3s ease-out;
   transform-origin: center center;
 }
 .main_spin .wheel_mid {
-  width: 25vw;
+  width: 25%;
   transform: translateX(1rem);
 }
 .game_block > img {
