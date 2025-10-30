@@ -296,9 +296,7 @@ html {
 .main_info.active ~ .main_game_flip {
   display: none !important;
 }
-.main_spin > .item {
-  width: 15rem;
-}
+
 .main_spin > .item1 {
   left: 0rem;
 }
@@ -323,8 +321,16 @@ html {
   bottom: 8rem;
   left: 10rem;
 }
+.main_spin > .cloud_4 {
+  top: 5%;
+  right: -10rem;
+}
+.main_spin > .cloud_1 {
+  bottom: 5%;
+  left: -6rem;
+}
 .main_spin > .item {
-  width: 15rem;
+  width: 40%;
 }
 .button {
   position: absolute;
@@ -333,7 +339,8 @@ html {
   width: 20rem;
 }
 .main_spin .button {
-  top: 65%;
+  top: 70%;
+  z-index: 999;
 }
 .main_wheel {
   width: 100%;
