@@ -357,7 +357,16 @@ function preloadImages(imageArray) {
     )
   );
 }
+const vouchersIMG = [
+  "./assets/vouchers/voucher (1).png",
+  "./assets/vouchers/voucher (3).png",
+  "./assets/vouchers/voucher (4).png",
+  "./assets/vouchers/voucher (5).png",
+];
 
 preloadImages(animalImgs).then(() => {
+  console.log("✅ Ảnh đã preload xong!");
+});
+preloadImages(vouchersIMG).then(() => {
   console.log("✅ Ảnh đã preload xong!");
 });
