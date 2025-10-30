@@ -100,6 +100,7 @@ html {
   margin-top: 4rem;
 }
 .main_voucher,
+.main_voucher_check,
 .main_info,
 .main_welcome,
 .main_spin {
@@ -114,6 +115,7 @@ html {
   overflow: hidden;
 }
 .main_info,
+.main_voucher_check,
 .main_voucher {
   background-color: rgb(255, 255, 255);
   width: 95%;
@@ -125,6 +127,7 @@ html {
   border-radius: 15px;
   z-index: 99;
 }
+.main_voucher_check .text,
 .main_voucher .text {
   width: 100%;
   padding-left: 2rem;
@@ -133,16 +136,23 @@ html {
   gap: 1rem;
   margin-bottom: 1rem;
 }
+.main_voucher_check .text {
+  padding-left: 0;
+  width: 90%;
+}
 #startBtn {
   z-index: 9;
 }
+.main_voucher_check .text > p:first-child,
 .main_voucher .text > p:first-child {
   color: var(--mainClr);
   font-weight: bold;
 }
+.main_voucher_check > img:first-child,
 .main_voucher > img:first-child {
   width: 25rem;
 }
+.main_voucher_check,
 .main_voucher {
   height: max-content;
   padding: 1rem;
@@ -150,6 +160,7 @@ html {
   flex-direction: column;
   gap: 1rem;
 }
+.main_voucher_check.active ~ .overlay,
 .main_voucher.active ~ .overlay,
 .main_info.active ~ .overlay {
   opacity: 1;
@@ -260,6 +271,7 @@ html {
   box-shadow: 0 0 5px rgba(187, 187, 187, 0.521);
   border-radius: 50rem;
 }
+.main_voucher_check,
 .main_voucher,
 .main_info {
   opacity: 0;
@@ -278,6 +290,17 @@ html {
 .main_info .item {
   width: 10rem;
 }
+.check_btn {
+  padding: 1rem 2rem;
+  background-color: var(--mainClr);
+  text-align: center;
+  color: white;
+  font-size: 1.8rem;
+  font-weight: bold;
+  border-radius: 50rem;
+  margin-top: 2rem;
+}
+.main_voucher_check.active,
 .main_voucher.active,
 .main_info.active {
   opacity: 1;
