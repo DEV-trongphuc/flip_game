@@ -133,6 +133,9 @@ html {
   gap: 1rem;
   margin-bottom: 1rem;
 }
+#startBtn {
+  z-index: 9;
+}
 .main_voucher .text > p:first-child {
   color: var(--mainClr);
   font-weight: bold;
@@ -206,7 +209,7 @@ html {
 }
 .item {
   bottom: 1rem;
-  width: 30rem;
+  width: 70%;
   position: absolute;
 }
 
