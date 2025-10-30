@@ -342,3 +342,22 @@ function showVoucher(reward, mail) {
       <p><b>Date:</b> ${reward.date}</p>
     `;
 }
+
+// ✅ Hàm preload ảnh (trả về Promise khi tất cả ảnh load xong)
+function preloadImages(imageArray) {
+  return Promise.all(
+    imageArray.map(
+      (src) =>
+        new Promise((resolve) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = resolve;
+          img.onerror = resolve; // tránh bị kẹt nếu ảnh lỗi
+        })
+    )
+  );
+}
+
+preloadImages(animalImgs).then(() => {
+  console.log("✅ Ảnh đã preload xong!");
+});
