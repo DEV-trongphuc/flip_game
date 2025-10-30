@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./main.css" />
+  </head>
+  <body>
+    <div class="main">
+      <div class="logo">
+        <img src="./assets/imgs/logo.png" />
+      </div>
+      <div class="main_spin">
+        <div class="main_wheel">
+          <img class="cloud wheel" src="./assets/imgs/wheel.png" />
+          <img class="cloud wheel_mid" src="./assets/imgs/btnm.png" />
+        </div>
+        <img class="item item3" src="./assets/imgs/Japanese (2).png" />
+        <img class="item item2" src="./assets/imgs/i1.png" />
+        <img class="item item4" src="./assets/imgs/i2.png" />
+        <img class="item item5" src="./assets/imgs/i3.png" />
+        <img class="item item1" src="./assets/imgs/Japanese (1).png" />
+        <img class="button" id="spin_btn" src="./assets/imgs/spin_btn.png" />
+      </div>
+      <div class="main_info">
+        <img class="cloud cloud_1" src="./assets/imgs/Japanese (3).png" />
+        <img class="cloud cloud_2" src="./assets/imgs/Japanese (3).png" />
+        <img class="cloud cloud_3" src="./assets/imgs/Japanese (3).png" />
+        <img class="cloud cloud_5" src="./assets/imgs/cgra.png" />
+        <img class="item item3" src="./assets/imgs/Japanese (2).png" />
+        <img class="item item2" src="./assets/imgs/i1.png" />
+        <img class="item item1" src="./assets/imgs/Japanese (1).png" />
+        <p class="cloud text">
+          You have received a lucky spin. <br />
+          Start now!
+        </p>
+        <div class="form">
+          <input placeholder="Number phone" id="phone" />
+          <input placeholder="Email" id="mail" />
+          <img
+            id=""
+            class="submit_btn"
+            id="submit_btn"
+            src="./assets/imgs/spin_btn.png"
+          />
+        </div>
+      </div>
+      <div class="main_voucher active">
+        <img class="" src="./assets/imgs/voucher.png" />
+        <div class="text">
+          <p><b>Voucher:</b> ${reward.name}</p>
+          <p><b>At:</b> ${reward.at}</p>
+          <p><b>Date:</b> ${reward.date}</p>
+        </div>
+        <div class="voucher_code">
+          <img src="./assets/vouchers/voucher (3).png" />
+          <img class="qr_code" src="" />
+        </div>
+      </div>
+      <div class="overlay"></div>
+      <div class="main_welcome">
+        <img class="cloud cloud_1" src="./assets/imgs/Japanese (3).png" />
+        <img class="cloud cloud_2" src="./assets/imgs/Japanese (3).png" />
+        <img class="cloud cloud_3" src="./assets/imgs/Japanese (3).png" />
+        <img class="cloud cloud_4" src="./assets/imgs/Japanese (3).png" />
+        <img class="cloud cloud_5" src="./assets/imgs/get.png" />
+        <img class="item item3" src="./assets/imgs/Japanese (2).png" />
+        <img class="item item2" src="./assets/imgs/i1.png" />
+        <img class="item item1" src="./assets/imgs/Japanese (1).png" />
+        <img id="startBtn" class="button" src="./assets/imgs/start_btn.png" />
+        <p class="cloud text">Flip 2 identical cards. Get a voucher now</p>
+      </div>
+
+      <div class="main_game_flip">
+        <div class="game_timer">
+          <p class="timer_count">90s</p>
+          <span class="timer_bar"></span>
+        </div>
+        <div class="game_block">
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+          <img class="card_item" src="./assets/imgs/card_back.png" />
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="./main.js"></script>
+</html>
