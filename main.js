@@ -325,12 +325,12 @@ spinBtn.addEventListener("click", () => {
     isSpinning = false;
   }, 3000);
 });
-window.addEventListener("load", () => {
-  const saved = JSON.parse(localStorage.getItem("game_data") || "{}");
-  if (saved.reward) {
-    showVoucher(saved.reward, saved.email);
-  }
-});
+// window.addEventListener("load", () => {
+//   const saved = JSON.parse(localStorage.getItem("game_data") || "{}");
+//   if (saved.reward) {
+//     showVoucher(saved.reward, saved.email);
+//   }
+// });
 function showVoucher(reward, mail) {
   voucherCode.src =
     "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example";
