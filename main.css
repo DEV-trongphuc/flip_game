@@ -252,14 +252,29 @@ html {
 }
 .form {
   position: relative;
-  width: 100%;
+  width: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 2rem;
   margin-top: 5rem;
   z-index: 9;
+}
+.form > p {
+  width: 100%;
+  text-align: left;
+  padding: 1rem;
+  padding-top: 2rem;
+}
+.form b {
+  font-weight: bold;
+}
+.submit_btn {
+  margin-top: 3rem;
+  animation: popUp 0.8s ease-out forwards, blink 1.2s infinite ease-in-out 0.8s;
+  /* popUp chạy 0.8s, sau đó blink bắt đầu sau 0.8s */
+  cursor: pointer;
+  transition: transform 0.3s;
 }
 .form > img {
   width: 25rem;
@@ -270,9 +285,14 @@ html {
   outline: unset;
   padding: 1.3rem 2rem;
   font-size: 1.5rem;
-  width: 90%;
+  width: 100%;
   box-shadow: 0 0 5px rgba(187, 187, 187, 0.521);
   border-radius: 50rem;
+  transition: 0.3s ease;
+  outline: 2px solid transparent;
+}
+.form > input:focus {
+  outline: 2px solid var(--mainClr);
 }
 .main_voucher_check,
 .main_voucher,
@@ -389,6 +409,7 @@ html {
 }
 .main_spin .wheel {
   width: 90%;
+  rotate: -90deg;
   transition: transform 3s ease-out;
   transform-origin: center center;
 }
@@ -657,23 +678,32 @@ html {
   animation: popUp 0.35s ease-out forwards;
   animation-delay: 0.5s;
 }
-
+.main_voucher_check p.active i {
+  color: green;
+}
+.main_voucher_check p i {
+  color: rgba(175, 3, 3, 0.808);
+}
 .main_spin.active .item2 {
   animation: popUp 0.35s ease-out forwards;
-  animation-delay: 0.7s;
+  animation-delay: 0.6s;
 }
 
 .main_spin.active .item3 {
   animation: popUp 0.35s ease-out forwards;
-  animation-delay: 1s;
+  animation-delay: 0.8s;
+}
+.main_spin.active .wheel {
+  rotate: 0deg;
+  transition: 2s;
 }
 
 .main_spin.active .item4 {
   animation: popUp 0.35s ease-out forwards;
-  animation-delay: 1.2s;
+  animation-delay: 1s;
 }
 
 .main_spin.active .item5 {
   animation: popUp 0.35s ease-out forwards;
-  animation-delay: 1.5s;
+  animation-delay: 1.2s;
 }

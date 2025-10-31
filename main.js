@@ -277,7 +277,7 @@ spinBtn.addEventListener("click", () => {
     4: 110,
   };
 
-  const extraSpin = 360 * 4;
+  const extraSpin = 360 * 5;
   const finalAngle = extraSpin + resultAngles[result];
 
   // reset và xoay
@@ -325,8 +325,7 @@ window.addEventListener("load", () => {
   }
 });
 function showVoucher(reward, mail) {
-  voucherCode.src =
-    `https://api.qrserver.com/v1/create-qr-code/?size=150x150&datahttps://flip-game-gules.vercel.app/?code=${mail}`;
+  voucherCode.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://flip-game-gules.vercel.app/?code=${mail}`;
   voucherBox.classList.add("active");
   voucherImg.src = reward.img;
   voucherText.innerHTML = `
@@ -376,7 +375,7 @@ Promise.all([preloadImages(animalImgs), preloadImages(vouchersIMG)]).then(
     });
   }
 );
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
   if (!code) return;
@@ -387,72 +386,89 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   voucherBox.classList.add("active");
 
-  try {
-    // 🪄 Fetch từ Apps Script
-    const res = await fetch(
-      `https://script.google.com/macros/s/AKfycbysS95cseVSb9HUgINWjMHQik3rilXTqoPtyofeGBau7VChbrbXy7HiKLFuB339lGkl/exec?email=${encodeURIComponent(
-        code
-      )}`
-    );
-    const data = await res.json();
-
-    if (!data || data.error) {
-      voucherText.innerHTML = `
-        <p><b>Voucher:</b> Không tìm thấy thông tin voucher</p>
-        <p><b>Status:</b> ❌ Không hợp lệ</p>
-      `;
-      return;
-    }
-
-    const used = data.is_used && data.is_used !== "";
-    const dateStr = used ? data.is_used : "30/11/2025";
-
+  // Hàm fetch và render trạng thái voucher
+  async function fetchVoucher() {
     voucherImg.src = "./assets/imgs/voucher.png";
     voucherText.innerHTML = `
-      <p><b>Voucher:</b> ${data.voucher_name}</p>
-      <p><b>Phone:</b> ${data.name || "-"}</p>
-      <p><b>Email:</b> ${data.phone || "-"}</p>
-      <p><b>Status:</b> ${used ? "Used" : "Available"}</p>
-      <p><b>Date:</b> ${dateStr}</p>
-      <p class="check_btn ${used ? "disable" : ""}">
-        ${used ? "REDEEMED" : "CONFIRM"}
-      </p>
+      <p><b>Voucher:</b> Checking...</p>
+      <p><b>Status:</b> Please wait</p>
     `;
 
-    // ⚡ Gắn lại listener cho nút CONFIRM
+    try {
+      const res = await fetch(
+        `https://script.google.com/macros/s/AKfycbysS95cseVSb9HUgINWjMHQik3rilXTqoPtyofeGBau7VChbrbXy7HiKLFuB339lGkl/exec?email=${encodeURIComponent(
+          code
+        )}`
+      );
+      const data = await res.json();
+
+      if (!data || data.error) {
+        voucherText.innerHTML = `
+          <p><b>Voucher:</b> Không tìm thấy thông tin voucher</p>
+          <p><b>Status:</b> ❌ Không hợp lệ</p>
+        `;
+        return null;
+      }
+
+      const used = data.is_used && data.is_used !== "";
+      const dateStr = used ? data.is_used : "30/11/2025";
+
+      voucherText.innerHTML = `
+        <p><b>Voucher:</b> ${data.voucher_name}</p>
+        <p><b>Phone:</b> ${data.phone || "-"}</p>
+        <p><b>Email:</b> ${data.email || "-"}</p>
+        <p class="${used ? "inactive" : "active"}">
+          <b>Status:</b> 
+          <i class="fa-solid fa-circle"></i> ${used ? "Used" : "Available"}
+        </p>
+        <p><b>Date:</b> ${dateStr}</p>
+        <p class="check_btn ${used ? "disable" : ""}">
+          ${used ? "REDEEMED" : "CONFIRM"}
+        </p>
+      `;
+      return data;
+    } catch (err) {
+      console.error("❌ Lỗi khi fetch voucher:", err);
+      voucherText.innerHTML = `
+        <p><b>Voucher:</b> Lỗi kết nối</p>
+        <p><b>Status:</b> ⚠️ Vui lòng thử lại</p>
+      `;
+      return null;
+    }
+  }
+
+  // Lần đầu fetch
+  fetchVoucher().then((data) => {
+    if (!data) return;
+    const used = data.is_used && data.is_used !== "";
     const newBtn = voucherText.querySelector(".check_btn");
-    if (!used) {
+    if (!used && newBtn) {
       newBtn.addEventListener("click", async () => {
         newBtn.classList.add("disable");
         newBtn.textContent = "REDEEMED";
 
-        const res = await fetch(
-          `https://script.google.com/macros/s/AKfycbysS95cseVSb9HUgINWjMHQik3rilXTqoPtyofeGBau7VChbrbXy7HiKLFuB339lGkl/exec`,
-          {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: code }),
-          }
-        );
-        console.log(res);
-        const text = await res.text();
-        console.log("Response text:", text);
+        try {
+          await fetch(
+            `https://script.google.com/macros/s/AKfycbysS95cseVSb9HUgINWjMHQik3rilXTqoPtyofeGBau7VChbrbXy7HiKLFuB339lGkl/exec`,
+            {
+              method: "POST",
+              mode: "no-cors",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email: code }),
+            }
+          );
 
-        const result = await res.json();
-        console.log("🪄 Update result:", result);
+          console.log("✅ Gửi xác nhận redeem thành công (no-cors)");
 
-        // 🧾 Cập nhật UI sau khi dùng
-        if (result.success) {
-          voucherText.querySelector("p:nth-child(4)").innerHTML =
-            "<b>Status:</b> USED";
-          voucherText.querySelector(
-            "p:nth-child(5)"
-          ).innerHTML = `<b>Date:</b> ${result.used_at}`;
+          // sau khi redeem xong, fetch lại để cập nhật trạng thái
+          setTimeout(fetchVoucher, 500); // delay 0.5s để server cập nhật
+        } catch (err) {
+          console.error("❌ Lỗi khi redeem voucher:", err);
+          alert("❌ Lỗi khi redeem, thử lại!");
+          newBtn.classList.remove("disable");
+          newBtn.textContent = "CONFIRM";
         }
       });
     }
-  } catch (err) {
-    console.error("❌ Lỗi khi fetch voucher:", err);
-  }
+  });
 });

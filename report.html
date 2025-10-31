@@ -68,6 +68,15 @@
             <i class="fa-solid fa-chart-column"></i>
             <span>Dashboard</span>
           </li>
+          <li class="" data-view="ads">
+            <a
+              target="_blank"
+              href="https://docs.google.com/spreadsheets/d/1hT_Jrr_tlD0lCsvsnZMOhv4Mz99K2xC1l_FP3GUM2Fk/edit?usp=sharing"
+            >
+              <i class="fa-solid fa-file-excel"></i>
+              <span>Raw Data </span>
+            </a>
+          </li>
         </ul>
         <p class="dom_text_menu">GAME APP</p>
         <ul class="dom_other_menu">
@@ -93,10 +102,9 @@
             </p>
           </div>
           <!-- <div class="dom_campaign_filter">
-            <input placeholder="Filter by Campaign name" id="campaign_filter" />
+            <input placeholder="Filter by phone or email" id="user_filter" />
             <div>
-              <i class="fa-solid fa-magnifying-glass" id="reset_button"></i>
-              <p>Search</p>
+              <p id="user_filter_btn">USE</p>
             </div>
             <ul></ul>
           </div> -->
@@ -144,7 +152,8 @@
             <div class="dom_inner dom_fade_item w33 box_shadow chart trendline">
               <div class="dom_table_filter">
                 <h2>
-                  <i class="fa-solid fa-chart-line main_clr"></i> Hourly Play
+                  <i class="fa-solid fa-chart-line main_clr"></i> Hourly Play |
+                  11-15-2025
                 </h2>
               </div>
               <div>
@@ -194,16 +203,17 @@
                         <th class="sortable">Email</th>
                         <th class="sortable">Phone</th>
                         <th class="sortable">Voucher</th>
-                        <th class="sortable">Is_used</th>
+                        <th class="sortable">Available</th>
+                        <th class="sortable">USE</th>
                       </tr>
                     </thead>
                     <tbody></tbody>
                     <tfoot>
                       <tr>
                         <td colspan="3">
-                          Data <span class="loaded_count"></span>
+                          Total <span class="loaded_count"></span>
                         </td>
-                        <td colspan="2"></td>
+                        <td colspan="3"></td>
                       </tr>
                     </tfoot>
                   </table>
