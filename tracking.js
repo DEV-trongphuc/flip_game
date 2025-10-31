@@ -8,8 +8,13 @@ let DATA;
 let currentVersion = null;
 let voucherChart = null;
 let leadTrendChart = null;
+let firstLoad = true; // chỉ active lần đầu
 
 async function loadData() {
+  if (firstLoad) {
+    document.querySelector(".loading")?.classList.add("active");
+  }
+
   const res = await fetch(
     "https://script.google.com/macros/s/AKfycbysS95cseVSb9HUgINWjMHQik3rilXTqoPtyofeGBau7VChbrbXy7HiKLFuB339lGkl/exec"
   );
@@ -20,6 +25,11 @@ async function loadData() {
   renderTable(data);
   renderVoucherChart(data);
   renderLeadTrendChart(data);
+
+  if (firstLoad) {
+    document.querySelector(".loading")?.classList.remove("active");
+    firstLoad = false; // chỉ lần đầu
+  }
 }
 
 // ======================
