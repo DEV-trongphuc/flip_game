@@ -703,7 +703,8 @@ html {
 
 /* Khi active */
 .main_spin.active .button {
-  animation: popUp 0.4s ease-out forwards, blink 1.2s infinite ease-in-out 0.8s;
+  animation: popUp 0.4s ease-out 1.5s forwards,
+    blink 1.2s infinite ease-in-out 1.8s;
   cursor: pointer;
 }
 
@@ -728,7 +729,7 @@ html {
 }
 .main_spin.active .wheel {
   rotate: 0deg;
-  transition: 2s;
+  transition: 1.5s;
 }
 
 .main_spin.active .item4 {
