@@ -581,6 +581,7 @@ html {
 /* Item bật nảy */
 @keyframes popUp {
   0% {
+    pointer-events: none;
     transform: scale(0);
     opacity: 0;
   }
@@ -589,6 +590,7 @@ html {
     opacity: 1;
   }
   100% {
+    pointer-events: all;
     transform: scale(1);
     opacity: 1;
   }
@@ -703,8 +705,8 @@ html {
 
 /* Khi active */
 .main_spin.active .button {
-  animation: popUp 0.4s ease-out 1.5s forwards,
-    blink 1.2s infinite ease-in-out 1.8s;
+  animation: popUp 0.4s ease-out 1.8s forwards,
+    blink 1.2s infinite ease-in-out 2.4s;
   cursor: pointer;
 }
 
