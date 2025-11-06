@@ -296,13 +296,28 @@ submitBtn.addEventListener("click", () => {
   const phone = document.getElementById("phone").value.trim();
   const email = document.getElementById("mail").value.trim();
 
-  if (!phone || !email || !name) {
+  if (!name || !phone || !email) {
     alert("Please enter complete information");
+    return;
+  }
+
+  // Kiểm tra định dạng email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email");
+    return;
+  }
+
+  // Kiểm tra định dạng sdt (cho phép số, +, -, (), khoảng trắng)
+  const phoneRegex = /^[+()\d\s-]{6,20}$/;
+  if (!phoneRegex.test(phone)) {
+    alert("Please enter a valid phone number");
     return;
   }
 
   const data = { name, phone, email };
   localStorage.setItem("game_data", JSON.stringify(data));
+
   mainInfo.classList.remove("active");
   // mainSpin.classList.add("active");
 });
