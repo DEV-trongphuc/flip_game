@@ -350,13 +350,28 @@ submitBtn.addEventListener("click", () => {
   const phone = document.getElementById("phone").value.trim();
   const email = document.getElementById("mail").value.trim();
 
-  if (!phone || !email || !name) {
+  if (!name || !phone || !email) {
     alert("Please enter complete information");
+    return;
+  }
+
+  // Kiểm tra định dạng email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email");
+    return;
+  }
+
+  // Kiểm tra định dạng sdt (cho phép số, +, -, (), khoảng trắng)
+  const phoneRegex = /^[+()\d\s-]{6,20}$/;
+  if (!phoneRegex.test(phone)) {
+    alert("Please enter a valid phone number");
     return;
   }
 
   const data = { name, phone, email };
   localStorage.setItem("game_data", JSON.stringify(data));
+
   mainInfo.classList.remove("active");
   // mainSpin.classList.add("active");
 });
@@ -585,9 +600,9 @@ document.addEventListener("DOMContentLoaded", () => {
   async function fetchVoucher() {
     voucherImg.src = "./assets/imgs/voucher.png";
     voucherText.innerHTML = `
-      <p><b>Voucher:</b> Checking...</p>
-      <p><b>Status:</b> Please wait</p>
-    `;
+        <p><b>Voucher:</b> Checking...</p>
+        <p><b>Status:</b> Please wait</p>
+      `;
 
     try {
       const res = await fetch(
@@ -599,9 +614,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!data || data.error) {
         voucherText.innerHTML = `
-          <p><b>Voucher:</b> Không tìm thấy thông tin voucher</p>
-          <p><b>Status:</b> ❌ Không hợp lệ</p>
-        `;
+            <p><b>Voucher:</b> Không tìm thấy thông tin voucher</p>
+            <p><b>Status:</b> ❌ Không hợp lệ</p>
+          `;
         return null;
       }
 
@@ -609,25 +624,25 @@ document.addEventListener("DOMContentLoaded", () => {
       const dateStr = used ? data.is_used : "30/11/2025";
 
       voucherText.innerHTML = `
-        <p><b>Voucher:</b> ${data.voucher_name}</p>
-        <p><b>Phone:</b> ${data.phone || "-"}</p>
-        <p><b>Email:</b> ${data.email || "-"}</p>
-        <p class="${used ? "inactive" : "active"}">
-          <b>Status:</b> 
-          <i class="fa-solid fa-circle"></i> ${used ? "Used" : "Available"}
-        </p>
-        <p><b>Date:</b> ${dateStr}</p>
-        <p class="check_btn ${used ? "disable" : ""}">
-          ${used ? "REDEEMED" : "CONFIRM"}
-        </p>
-      `;
+          <p><b>Voucher:</b> ${data.voucher_name}</p>
+          <p><b>Phone:</b> ${data.phone || "-"}</p>
+          <p><b>Email:</b> ${data.email || "-"}</p>
+          <p class="${used ? "inactive" : "active"}">
+            <b>Status:</b> 
+            <i class="fa-solid fa-circle"></i> ${used ? "Used" : "Available"}
+          </p>
+          <p><b>Date:</b> ${dateStr}</p>
+          <p class="check_btn ${used ? "disable" : ""}">
+            ${used ? "REDEEMED" : "CONFIRM"}
+          </p>
+        `;
       return data;
     } catch (err) {
       console.error("❌ Lỗi khi fetch voucher:", err);
       voucherText.innerHTML = `
-        <p><b>Voucher:</b> Lỗi kết nối</p>
-        <p><b>Status:</b> ⚠️ Vui lòng thử lại</p>
-      `;
+          <p><b>Voucher:</b> Lỗi kết nối</p>
+          <p><b>Status:</b> ⚠️ Vui lòng thử lại</p>
+        `;
       return null;
     }
   }
