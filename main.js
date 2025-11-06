@@ -153,18 +153,107 @@ function startTimer() {
     }
   }, 1000);
 }
-const mainInfo = document.querySelector(".main_info");
 
+// Các biến DOM
+// ---------------------
+const mainInfo = document.querySelector(".main_info");
+const mainVoucher = document.querySelector(".main_voucher");
+const timeGetEl = document.querySelector(".main_voucher .time_get");
+
+// ---------------------
+// Hàm format ngày giờ
+// ---------------------
+function getFormattedTime() {
+  const now = new Date();
+  const dd = String(now.getDate()).padStart(2, "0");
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const yyyy = now.getFullYear();
+  const hh = String(now.getHours()).padStart(2, "0");
+  const min = String(now.getMinutes()).padStart(2, "0");
+  return `${dd}/${mm}/${yyyy} ${hh}:${min}`;
+}
+
+// ---------------------
+// Khi thắng game
+// ---------------------
 function endGame(win) {
   clearInterval(timer);
   setTimeout(() => {
     if (win) {
-      mainInfo.classList.add("active");
+      const timeNow = getFormattedTime();
+      timeGetEl.textContent = timeNow;
+
+      // Lưu thời gian thắng
+      localStorage.setItem("chicken_time", timeNow);
+
+      // Hiển thị voucher
+      mainVoucher.classList.add("active");
+      mainInfo.classList.remove("active");
     } else {
       alert("⏰ Hết giờ rồi. Chơi lại nha!");
-      resetGame(); // không reset ngay, để người chơi quay xong mới reset nếu muốn
+      resetGame();
     }
   }, 500);
+}
+
+// ---------------------
+// Khi vào trang
+// ---------------------
+window.addEventListener("DOMContentLoaded", () => {
+  const chickenTime = localStorage.getItem("chicken_time");
+  const gameData = localStorage.getItem("game_data");
+
+  // ✅ Hàm lấy ngày hiện tại dạng dd/mm/yyyy
+  function getTodayDate() {
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2, "0");
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const yyyy = now.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  }
+
+  // ✅ Lấy ngày trong chickenTime (nếu có)
+  let chickenDate = null;
+  if (chickenTime) {
+    chickenDate = chickenTime.split(" ")[0]; // "11/06/2025"
+  }
+
+  const today = getTodayDate();
+
+  // ✅ Nếu có chickenTime nhưng qua ngày mới thì reset để chơi lại
+  if (chickenDate && chickenDate !== today) {
+    localStorage.removeItem("chicken_time");
+    localStorage.removeItem("reward_data");
+    // Nếu mày có lưu các biến khác liên quan game, reset ở đây luôn
+  }
+
+  // ✅ Sau khi check xong thì đọc lại
+  const validChickenTime = localStorage.getItem("chicken_time");
+
+  if (validChickenTime) {
+    // ✅ Nếu đã có gà → show voucher
+    timeGetEl.textContent = validChickenTime;
+    mainVoucher.classList.add("active");
+    mainInfo.classList.remove("active");
+  } else if (gameData) {
+    // ✅ Có game_data nhưng chưa có gà → ẩn info, cho chơi tiếp
+    mainInfo.classList.remove("active");
+    mainVoucher.classList.remove("active");
+    // showGame(); // nếu có hàm này
+  } else {
+    // ✅ Chưa có gì → hiện form thu thập info
+    mainInfo.classList.add("active");
+    mainVoucher.classList.remove("active");
+  }
+});
+
+// ---------------------
+// Giữ nguyên game_data
+// ---------------------
+function saveGameData(newData) {
+  const oldData = JSON.parse(localStorage.getItem("game_data")) || {};
+  const merged = { ...oldData, ...newData };
+  localStorage.setItem("game_data", JSON.stringify(merged));
 }
 
 function resetGame() {
@@ -203,18 +292,19 @@ const status = document.getElementById("status");
 const mainSpin = document.querySelector(".main_spin");
 
 submitBtn.addEventListener("click", () => {
+  const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const email = document.getElementById("mail").value.trim();
 
-  if (!phone || !email) {
+  if (!phone || !email || !name) {
     alert("Please enter complete information");
     return;
   }
 
-  const data = { phone, email };
+  const data = { name, phone, email };
   localStorage.setItem("game_data", JSON.stringify(data));
   mainInfo.classList.remove("active");
-  mainSpin.classList.add("active");
+  // mainSpin.classList.add("active");
 });
 
 const spinBtn = document.getElementById("spin_btn");
@@ -318,12 +408,12 @@ spinBtn.addEventListener("click", () => {
     isSpinning = false;
   }, 5000);
 });
-window.addEventListener("load", () => {
-  const saved = JSON.parse(localStorage.getItem("game_data") || "{}");
-  if (saved.reward) {
-    showVoucher(saved.reward, saved.email);
-  }
-});
+// window.addEventListener("load", () => {
+//   const saved = JSON.parse(localStorage.getItem("game_data") || "{}");
+//   if (saved.reward) {
+//     showVoucher(saved.reward, saved.email);
+//   }
+// });
 function showVoucher(reward, mail) {
   voucherCode.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://flip-game-gules.vercel.app/?code=${mail}`;
   voucherBox.classList.add("active");
