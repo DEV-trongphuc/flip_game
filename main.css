@@ -131,6 +131,9 @@ html {
   border-radius: 15px;
   z-index: 99;
 }
+.main_info {
+  height: 45rem;
+}
 .main_voucher_check {
   z-index: 9999;
 }
@@ -381,6 +384,7 @@ html {
 .main_spin.active ~ .main_welcome {
   display: none;
 }
+
 .main_spin.active ~ .main_game_flip {
   display: none !important;
 }
@@ -390,7 +394,11 @@ html {
 .main_info.active ~ .main_game_flip {
   display: none !important;
 }
-
+.main_welcome > .item3 {
+  width: 100%;
+  right: 0rem;
+  bottom: 2rem;
+}
 .main_spin > .item1 {
   left: 0rem;
 }
