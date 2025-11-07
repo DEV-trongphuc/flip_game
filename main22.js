@@ -273,31 +273,44 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // ✅ Nếu đã có phần thưởng → hiện voucher
     showReward(mainVoucher, mainInfo, reward, email);
-  } else if (gameData) {
-    // ✅ Có dữ liệu nhưng chưa có thưởng
+  } else {
+    // ✅ Chưa có gì → KHÔNG hỏi info, chỉ hiện game
     mainInfo.classList.remove("active");
     mainVoucher.classList.remove("active");
     // showGame();
-  } else {
-    // ✅ Chưa có gì → hiện form nhập info
-    mainInfo.classList.add("active");
-    mainVoucher.classList.remove("active");
   }
 
-  // ✅ Hàm tiện: hiển thị quà
+  // ✅ Hàm hiển thị quà
   function showReward(mainVoucher, mainInfo, reward, email) {
     const freeItem = mainVoucher.querySelector(".free_item");
-    const emailText = mainVoucher.querySelector(".text.center:nth-of-type(2)");
     const rewardText = mainVoucher.querySelector(
       ".text.center:first-of-type b.main_clr"
     );
+    const emailText = mainVoucher.querySelector(".text.center:nth-of-type(2)");
+    const claimBtn = document.getElementById("claimRewardBtn");
 
     freeItem.src = reward.img;
     rewardText.textContent = reward.name;
-    emailText.innerHTML = `Voucher has been sent to your email <span class="email">${email}</span>`;
+
+    if (email) {
+      // Đã có email => hiện dòng voucher đã gửi
+      emailText.style.display = "block";
+      emailText.innerHTML = `Voucher has been sent to your email <span class="email">${email}</span>`;
+      claimBtn.style.display = "none"; // ẩn nút nhận quà
+    } else {
+      // Chưa có email => ẩn dòng text, hiện nút nhận quà
+      emailText.style.display = "none";
+      claimBtn.style.display = "inline-block";
+    }
 
     mainVoucher.classList.add("active");
     mainInfo.classList.remove("active");
+
+    // Khi bấm “Nhận quà” → mở form info
+    claimBtn.onclick = () => {
+      mainVoucher.classList.remove("active");
+      mainInfo.classList.add("active");
+    };
   }
 });
 
@@ -355,25 +368,38 @@ submitBtn.addEventListener("click", () => {
     return;
   }
 
-  // Kiểm tra định dạng email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    alert("Please enter a valid email");
-    return;
+  // Lấy data cũ trong localStorage
+  const gameData = JSON.parse(localStorage.getItem("game_data") || "{}");
+
+  // Cập nhật thêm info người chơi
+  gameData.name = name;
+  gameData.phone = phone;
+  gameData.email = email;
+
+  // Lưu lại
+  localStorage.setItem("game_data", JSON.stringify(gameData));
+
+  // Hiện lại voucher (giữ nguyên phần thưởng cũ)
+  if (gameData.reward) {
+    const freeItem = mainVoucher.querySelector(".free_item");
+    const rewardText = mainVoucher.querySelector(
+      ".text.center:first-of-type b.main_clr"
+    );
+    const emailText = mainVoucher.querySelector(".text.center:nth-of-type(2)");
+    const claimBtn = document.getElementById("claimRewardBtn");
+
+    freeItem.src = gameData.reward.img;
+    rewardText.textContent = gameData.reward.name;
+
+    // Hiện dòng voucher đã gửi và ẩn nút claim
+    emailText.style.display = "block";
+    emailText.innerHTML = `Voucher has been sent to your email <span class="email">${email}</span>`;
+    claimBtn.style.display = "none";
   }
 
-  // Kiểm tra định dạng sdt (cho phép số, +, -, (), khoảng trắng)
-  const phoneRegex = /^[+()\d\s-]{6,20}$/;
-  if (!phoneRegex.test(phone)) {
-    alert("Please enter a valid phone number");
-    return;
-  }
-
-  const data = { name, phone, email };
-  localStorage.setItem("game_data", JSON.stringify(data));
-
+  // Chuyển giao diện
   mainInfo.classList.remove("active");
-  // mainSpin.classList.add("active");
+  mainVoucher.classList.add("active");
 });
 
 const spinBtn = document.getElementById("spin_btn");
@@ -523,8 +549,34 @@ spinBtn.addEventListener("click", () => {
       userData.lastplay = getTodayDate();
       localStorage.setItem("game_data", JSON.stringify(userData));
 
-      // ✅ Hiện voucher
-      showVoucher(reward, userData.email);
+      // ✅ Nếu đã có email, phone, name → tự gửi voucher luôn
+      if (userData.email && userData.phone && userData.name) {
+        // Hiện voucher + dòng email đã gửi
+        const mainVoucher = document.querySelector(".main_voucher");
+        const freeItem = mainVoucher.querySelector(".free_item");
+        const rewardText = mainVoucher.querySelector(".text.center b.main_clr");
+        const emailText = mainVoucher.querySelector(
+          ".text.center:nth-of-type(2)"
+        );
+        const claimBtn = document.getElementById("claimRewardBtn");
+
+        freeItem.src = reward.img;
+        rewardText.textContent = reward.name;
+
+        emailText.style.display = "block";
+        emailText.innerHTML = `Voucher has been sent to your email <span class="email">${userData.email}</span>`;
+        claimBtn.style.display = "none";
+
+        mainVoucher.classList.add("active");
+        mainInfo.classList.remove("active");
+
+        // 👉 (tuỳ chọn) Gửi dữ liệu lên Google Form hoặc API
+        // fetch("...", { ... })
+      } else {
+        // ✅ Chưa có info → hiện nút Nhận quà
+        showVoucher(reward, userData.email);
+      }
+
       console.log("🎁 Reward saved:", userData);
     }
 
@@ -541,16 +593,26 @@ spinBtn.addEventListener("click", () => {
 function showVoucher(reward, mail) {
   const mainVoucher = document.querySelector(".main_voucher");
   const freeItem = mainVoucher.querySelector(".free_item");
+  const rewardText = mainVoucher.querySelector(".text.center b.main_clr");
   const emailText = mainVoucher.querySelector(".text.center:nth-of-type(2)");
-  const rewardText = mainVoucher.querySelector(
-    ".text.center:first-of-type b.main_clr"
-  );
+  const claimBtn = document.getElementById("claimRewardBtn");
 
-  // ✅ Cập nhật UI
+  // Hiển thị thông tin giải thưởng
   freeItem.src = reward.img;
   rewardText.textContent = reward.name;
-  emailText.innerHTML = `Voucher has been sent to your email <span class="email"> ${mail}</span>`;
+
+  // Ẩn dòng email (chưa gửi)
+  emailText.style.display = "none";
+
+  // Hiện khối voucher + nút nhận
   mainVoucher.classList.add("active");
+  claimBtn.style.display = "inline-block";
+
+  // Khi người chơi bấm Nhận quà
+  claimBtn.onclick = () => {
+    mainVoucher.classList.remove("active");
+    mainInfo.classList.add("active"); // Hiện form nhập info
+  };
 }
 
 // ✅ Hàm preload ảnh (trả về Promise khi tất cả ảnh load xong)
