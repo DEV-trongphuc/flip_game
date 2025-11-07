@@ -157,7 +157,11 @@ html {
   align-items: center;
   text-align: center;
 }
-
+.text.center.big {
+  font-size: 3rem !important;
+  font-weight: bold;
+  color: var(--mainClr);
+}
 .main_voucher_check > img:first-child,
 .main_voucher > img:first-child {
   width: 25rem;
@@ -499,7 +503,7 @@ html {
 }
 
 .game_block .card_item {
-  flex: 1 0 calc(24% - 0.5rem);
+  flex: 1 0 calc(30% - 0.5rem);
   box-sizing: border-box;
   opacity: 0;
 }
