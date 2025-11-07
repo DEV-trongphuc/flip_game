@@ -165,10 +165,17 @@ html {
 .cgra {
   width: 40rem !important;
 }
+.claim_btn {
+  width: 80%;
+  color: white;
+  padding: 1rem;
+  border-radius: 50rem;
+  margin-bottom: 2rem;
+}
 .free_item {
-  width: 25rem !important;
+  width: 20rem !important;
   border-radius: 10px;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
   border: 3px solid var(--mainClr);
 }
 .main_voucher_check,
