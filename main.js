@@ -16,7 +16,6 @@ let lock = false;
 let matched = 0;
 let timer;
 
-// 🐶 Danh sách hình động vật mẫu (10 cặp)
 const animalImgs = [
   "./assets/card/card (1).png",
   "./assets/card/card (2).png",
@@ -24,8 +23,6 @@ const animalImgs = [
   "./assets/card/card (4).png",
   "./assets/card/card (5).png",
   "./assets/card/card (6).png",
-  "./assets/card/card (7).png",
-  "./assets/card/card (8).png",
 ];
 const vouchersIMG = [
   "./assets/vouchers/voucher (1).png",
