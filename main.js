@@ -239,7 +239,7 @@ window.addEventListener("DOMContentLoaded", () => {
     // showGame(); // nếu có hàm này
   } else {
     // ✅ Chưa có gì → hiện form thu thập info
-    mainInfo.classList.add("active");
+    // mainInfo.classList.add("active");
     mainVoucher.classList.remove("active");
   }
 });
