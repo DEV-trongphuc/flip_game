@@ -25,6 +25,10 @@ textarea {
   background-color: transparent;
   outline: none;
 }
+.get_more {
+  cursor: pointer;
+  text-decoration: underline;
+}
 button {
   cursor: pointer;
   background-color: transparent;
@@ -716,7 +720,7 @@ html {
 
 /* Khi active */
 .main_spin.active .button {
-  animation: popUp 0.4s ease-out 1.8s forwards,
+  animation: popUp 0.4s ease-out 2s forwards,
     blink 1.2s infinite ease-in-out 2.4s;
   cursor: pointer;
 }
