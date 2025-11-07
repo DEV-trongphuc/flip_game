@@ -359,13 +359,23 @@ const status = document.getElementById("status");
 const mainSpin = document.querySelector(".main_spin");
 
 submitBtn.addEventListener("click", () => {
-  const name = document.getElementById("name").value.trim();
+  let name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const email = document.getElementById("mail").value.trim();
 
-  if (!name || !phone || !email) {
-    alert("Please enter complete information");
+  if (!email) {
+    alert("Please enter Email");
     return;
+  }
+
+  // Nếu chưa nhập name thì lấy phần đầu email
+  if (!name && email.includes("@")) {
+    name = email
+      .split("@")[0]
+      .replace(/[^a-zA-Z0-9]/g, " ") // bỏ ký tự lạ
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   }
 
   // Lấy data cũ trong localStorage
