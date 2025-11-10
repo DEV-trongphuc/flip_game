@@ -8,7 +8,7 @@ function updateTimerBar(progress) {
   timerBarEl.style.setProperty("--progress", progress);
 }
 
-const TOTAL_TIME = 90;
+const TOTAL_TIME = 30;
 let timeLeft = TOTAL_TIME;
 let firstCard = null;
 let secondCard = null;
