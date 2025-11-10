@@ -411,6 +411,23 @@ html {
   bottom: 4rem;
   z-index: 0;
 }
+.main_welcome.wheel > .item3 {
+  width: 70%;
+  right: 0rem;
+  bottom: 8rem;
+  z-index: 0;
+}
+.main_welcome.wheel > .item2 {
+  width: 70%;
+  right: 0rem;
+  bottom: -5rem;
+}
+.main_welcome.wheel > .item1 {
+  width: 70%;
+  right: 0rem;
+  bottom: 4rem;
+  z-index: 0;
+}
 .main_spin > .item1 {
   left: 0rem;
 }
