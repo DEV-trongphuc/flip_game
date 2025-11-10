@@ -497,9 +497,7 @@ html {
   width: 25%;
   transform: translateX(1rem);
 }
-.game_block > img {
-  width: calc(35%);
-}
+
 .game_timer {
   height: 1rem;
   width: 100%;
@@ -507,6 +505,7 @@ html {
   position: relative;
   background-color: rgba(187, 187, 187, 0.521);
   border-radius: 50rem;
+  margin-top: 3rem;
 }
 .timer_bar {
   width: 100%;
@@ -538,14 +537,19 @@ html {
 .game_block {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-top: 2rem;
+}
+.game_block img {
+  width: 100%;
 }
 
 .game_block .card_item {
   box-sizing: border-box;
   opacity: 0;
+  width: calc(33.33% - 1rem);
 }
 .main_game_flip.active .card_item {
   animation: cardPop 0.5s ease-out forwards;
