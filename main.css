@@ -100,7 +100,7 @@ html {
   align-items: center;
 }
 .logo img {
-  width: 10rem;
+  width: 25rem;
   margin-top: 4rem;
 }
 .main_voucher,
@@ -397,7 +397,19 @@ html {
 .main_welcome > .item3 {
   width: 100%;
   right: 0rem;
+  bottom: 5rem;
+  z-index: 0;
+}
+.main_welcome > .item2 {
+  width: 100%;
+  right: 0rem;
   bottom: 2rem;
+}
+.main_game_flip > .item2 {
+  width: 100%;
+  right: 0rem;
+  bottom: 4rem;
+  z-index: 0;
 }
 .main_spin > .item1 {
   left: 0rem;
@@ -469,7 +481,7 @@ html {
   transform: translateX(1rem);
 }
 .game_block > img {
-  width: calc(24% - 0.5rem);
+  width: calc(35%);
 }
 .game_timer {
   height: 1rem;
@@ -515,7 +527,6 @@ html {
 }
 
 .game_block .card_item {
-  flex: 1 0 calc(30% - 0.5rem);
   box-sizing: border-box;
   opacity: 0;
 }

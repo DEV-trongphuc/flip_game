@@ -18,11 +18,11 @@ let timer;
 
 const animalImgs = [
   "./assets/card/card (1).png",
-  "./assets/card/card (2).png",
-  "./assets/card/card (3).png",
   "./assets/card/card (4).png",
-  "./assets/card/card (5).png",
   "./assets/card/card (6).png",
+  "./assets/card/card (3).png",
+  // "./assets/card/card (5).png",
+  // "./assets/card/card (6).png",
 ];
 const vouchersIMG = [
   "./assets/vouchers/voucher (1).png",
