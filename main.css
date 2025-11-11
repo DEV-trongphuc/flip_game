@@ -99,6 +99,10 @@ html {
   justify-content: center;
   align-items: center;
 }
+.logo.wheels {
+  flex-direction: column;
+  gap: 2rem;
+}
 .logo img {
   width: 25rem;
   margin-top: 4rem;
@@ -117,6 +121,7 @@ html {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  z-index: 9;
 }
 .main_info,
 .main_voucher_check,
@@ -469,6 +474,9 @@ html {
   transform: translate(-50%, -50%);
   width: 22rem;
 }
+.will_show {
+  display: none;
+}
 .main_spin .button {
   top: 70%;
   z-index: 999;
@@ -489,8 +497,8 @@ html {
 }
 .main_spin .wheel {
   width: 90%;
-  rotate: -90deg;
-  transition: transform 3s ease-out;
+  /* rotate: -90deg; */
+  /* transition: transform 3s ease-out; */
   transform-origin: center center;
 }
 .main_spin .wheel_mid {
@@ -636,7 +644,6 @@ html {
 /* Item bật nảy */
 @keyframes popUp {
   0% {
-    pointer-events: none;
     transform: scale(0);
     opacity: 0;
   }
@@ -645,7 +652,6 @@ html {
     opacity: 1;
   }
   100% {
-    pointer-events: all;
     transform: scale(1);
     opacity: 1;
   }
@@ -760,8 +766,8 @@ html {
 
 /* Khi active */
 .main_spin.active .button {
-  animation: popUp 0.4s ease-out 2s forwards,
-    blink 1.2s infinite ease-in-out 2.4s;
+  animation: popUp 0.4s ease-out 2.4s forwards,
+    blink 1.2s infinite ease-in-out 2.8s;
   cursor: pointer;
 }
 
@@ -784,9 +790,7 @@ html {
   animation: popUp 0.35s ease-out forwards;
   animation-delay: 0.8s;
 }
-.main_spin.active .wheel {
-  rotate: 0deg;
-  transition: 1.5s;
+.main_spin .wheel {
 }
 
 .main_spin.active .item4 {
