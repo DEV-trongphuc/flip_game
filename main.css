@@ -485,10 +485,18 @@ html {
   top: 70%;
   z-index: 999;
 }
+.logo.wheels > p {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+.will_none {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
 .main_wheel {
   width: 100%;
   position: absolute;
-  top: 40%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
   height: 100vh;
@@ -530,6 +538,7 @@ html {
   gap: 5px;
 }
 #spin_btn {
+  width: 15rem;
   cursor: pointer;
 }
 .main_spin .wheel {
