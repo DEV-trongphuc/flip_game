@@ -296,7 +296,13 @@ window.addEventListener("DOMContentLoaded", () => {
       // Đã có email => hiện dòng voucher đã gửi
       emailText.style.display = "block";
       emailText.innerHTML = `Voucher has been sent to your email <span class="email">${email}</span>`;
-      claimBtn.style.display = "none"; // ẩn nút nhận quà
+      claimBtn.style.display = "none";
+
+      // ✅ đổi ảnh cảm ơn + toggle text
+      const cgraImg = mainVoucher.querySelector(".cgra");
+      cgraImg.src = "./assets/imgs/thankyou.png";
+      mainVoucher.querySelector(".will_none").style.display = "none";
+      mainVoucher.querySelector(".will_show").style.display = "block";
     } else {
       // Chưa có email => ẩn dòng text, hiện nút nhận quà
       emailText.style.display = "none";
@@ -405,6 +411,13 @@ submitBtn.addEventListener("click", () => {
     emailText.style.display = "block";
     emailText.innerHTML = `Voucher has been sent to your email <span class="email">${email}</span>`;
     claimBtn.style.display = "none";
+
+    // ✅ Đổi ảnh cảm ơn và toggle phần nội dung
+    const cgraImg = mainVoucher.querySelector(".cgra");
+    cgraImg.src = "./assets/imgs/thankyou.png";
+
+    mainVoucher.querySelector(".will_none").style.display = "none";
+    mainVoucher.querySelector(".will_show").style.display = "block";
   }
 
   // Chuyển giao diện
@@ -560,8 +573,8 @@ spinBtn.addEventListener("click", () => {
       localStorage.setItem("game_data", JSON.stringify(userData));
 
       // ✅ Nếu đã có email, phone, name → tự gửi voucher luôn
-      if (userData.email && userData.phone && userData.name) {
-        // Hiện voucher + dòng email đã gửi
+      if (userData.email) {
+        // Đã có email → hiện voucher với thank you
         const mainVoucher = document.querySelector(".main_voucher");
         const freeItem = mainVoucher.querySelector(".free_item");
         const rewardText = mainVoucher.querySelector(".text.center b.main_clr");
@@ -570,18 +583,22 @@ spinBtn.addEventListener("click", () => {
         );
         const claimBtn = document.getElementById("claimRewardBtn");
 
-        freeItem.src = reward.img;
-        rewardText.textContent = reward.name;
+        // đổi ảnh cảm ơn
+        const cgraImg = mainVoucher.querySelector(".cgra");
+        cgraImg.src = "./assets/imgs/thankyou.png";
 
+        // hiện dòng email + ẩn nút nhận quà
         emailText.style.display = "block";
         emailText.innerHTML = `Voucher has been sent to your email <span class="email">${userData.email}</span>`;
         claimBtn.style.display = "none";
 
+        // ẩn phần will_none, hiện will_show
+        mainVoucher.querySelector(".will_none").style.display = "none";
+        mainVoucher.querySelector(".will_show").style.display = "block";
+
+        // hiện khối voucher
         mainVoucher.classList.add("active");
         mainInfo.classList.remove("active");
-
-        // 👉 (tuỳ chọn) Gửi dữ liệu lên Google Form hoặc API
-        // fetch("...", { ... })
       } else {
         // ✅ Chưa có info → hiện nút Nhận quà
         showVoucher(reward, userData.email);
@@ -648,15 +665,7 @@ function preloadImages(imagePaths) {
     });
   });
 }
-startBtn.addEventListener("click", () => {
-  welcome.style.animation = "slideOut 0.5s ease forwards";
-  setTimeout(() => {
-    welcome.style.display = "none";
-    mainSpin.classList.add("active");
-    // renderCards(true);
-    // ✅ Bắt đầu đếm thời gian khi vào game
-  }, 800);
-});
+welcome.style.display = "none";
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
