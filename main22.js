@@ -395,6 +395,38 @@ submitBtn.addEventListener("click", () => {
   // Lưu lại
   localStorage.setItem("game_data", JSON.stringify(gameData));
 
+  // 🚀 Gửi request đến API MoMo
+  const payload = {
+    name: name,
+    email: email,
+    phoneNumber: phone || "000",
+    sourceType: "DIRECT_LINK",
+    attribution: {
+      linkKey: "63e36253-ffd7-4b16-ab41-f62bdb32cf51",
+      utm_tracking_id: "9f8a1575-0ed7-4158-b9b9-b7fed8211f2b",
+      slug: "aburi-en-vietnam-j00cc",
+      id: "273f0eaa-1ec5-44e1-a5eb-bb13755ad77f",
+    },
+    timezoneOffset: new Date().getTimezoneOffset(), // tự động lấy giờ
+    optin: false,
+  };
+
+  fetch(
+    "https://sg-be-for-cp-api.momos.io/api/v1/momos/vouchers/273f0eaa-1ec5-44e1-a5eb-bb13755ad77f/dispense",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    }
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("Voucher response:", data);
+    })
+    .catch((err) => console.error("Voucher request failed:", err));
+
   // Hiện lại voucher (giữ nguyên phần thưởng cũ)
   if (gameData.reward) {
     const freeItem = mainVoucher.querySelector(".free_item");
@@ -415,7 +447,6 @@ submitBtn.addEventListener("click", () => {
     // ✅ Đổi ảnh cảm ơn và toggle phần nội dung
     const cgraImg = mainVoucher.querySelector(".cgra");
     cgraImg.src = "./assets/imgs/thankyou.png";
-
     mainVoucher.querySelector(".will_none").style.display = "none";
     mainVoucher.querySelector(".will_show").style.display = "block";
   }
@@ -434,16 +465,43 @@ const voucherCode = voucherBox.querySelectorAll("img")[2]; // ảnh voucher (ả
 
 let isSpinning = false;
 
+// const vouchers = [
+//   {
+//     id: 1,
+//     name: "Free 01 Buta Don",
+//     img: "./assets/img_vouchers/Buta Don.jpg",
+//   },
+//   {
+//     id: 2,
+//     name: "Free 01 Kiwami Tonkotsu Ramen",
+//     img: "./assets/img_vouchers/Tonkotsu.jpg",
+//   },
+//   {
+//     id: 3,
+//     name: "20% OFF on total Food Menu",
+//     img: "./assets/img_vouchers/20OFF.jpg",
+//   },
+//   {
+//     id: 4,
+//     name: "30% OFF on Sushi & Sashimi Set (16 kinds)",
+//     img: "./assets/img_vouchers/30off.jpg",
+//   },
+//   {
+//     id: 5,
+//     name: "Cash voucher 200.000 vnd at Aburi-EN and Kiwami Vietnam",
+//     img: "./assets/img_vouchers/haitramka.jpg",
+//   },
+// ];
 const vouchers = [
   {
     id: 1,
-    name: "Free 01 Buta Don",
-    img: "./assets/img_vouchers/Buta Don.jpg",
+    name: "20% OFF on total Food Menu",
+    img: "./assets/img_vouchers/20OFF.jpg",
   },
   {
     id: 2,
-    name: "Free 01 Kiwami Tonkotsu Ramen",
-    img: "./assets/img_vouchers/Tonkotsu.jpg",
+    name: "20% OFF on total Food Menu",
+    img: "./assets/img_vouchers/20OFF.jpg",
   },
   {
     id: 3,
@@ -452,13 +510,13 @@ const vouchers = [
   },
   {
     id: 4,
-    name: "30% OFF on Sushi & Sashimi Set (16 kinds)",
-    img: "./assets/img_vouchers/30OFF.jpg",
+    name: "20% OFF on total Food Menu",
+    img: "./assets/img_vouchers/20OFF.jpg",
   },
   {
     id: 5,
-    name: "Cash voucher 200.000 vnd at Aburi-EN and Kiwami Vietnam",
-    img: "./assets/img_vouchers/haitramka.jpg",
+    name: "20% OFF on total Food Menu",
+    img: "./assets/img_vouchers/20OFF.jpg",
   },
 ];
 

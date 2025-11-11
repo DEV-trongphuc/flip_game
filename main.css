@@ -137,7 +137,7 @@ html {
   z-index: 99;
 }
 .main_info {
-  height: 45rem;
+  height: 30rem;
 }
 .main_voucher_check {
   z-index: 9999;
@@ -229,11 +229,11 @@ html {
   left: -10%;
 }
 .cloud_2 {
-  top: 30%;
-  left: -8rem;
+  top: 8%;
+  left: -10rem;
 }
 .cloud_3 {
-  top: 40%;
+  top: 55%;
   right: -8rem;
 }
 .cloud_4 {
@@ -258,7 +258,7 @@ html {
   font-size: 1.5rem;
 }
 .cloud_5 {
-  top: 15rem;
+  top: 20rem;
 }
 .item {
   bottom: 1rem;
@@ -301,9 +301,8 @@ html {
 }
 .form > p {
   width: 100%;
-  text-align: left;
-  padding: 1rem;
-  padding-top: 2rem;
+  text-align: center;
+  padding-bottom: 2rem;
 }
 .main_voucher {
   background: url("./assets/imgs/Japanese\ \(6\).png");
@@ -400,8 +399,8 @@ html {
   display: none !important;
 }
 .main_welcome > .item3 {
-  width: 100%;
-  right: 0rem;
+  width: 80%;
+  right: 3rem;
   bottom: 5rem;
   z-index: 0;
 }
@@ -468,14 +467,19 @@ html {
 .main_spin > .item {
   width: 40%;
 }
+.main_welcome_social > p > b {
+  font-weight: bold;
+  font-size: 1.6rem;
+}
 .button {
   position: absolute;
-  top: 40%;
+  top: 40rem;
   transform: translate(-50%, -50%);
   width: 22rem;
 }
 .will_show {
   display: none;
+  text-align: center;
 }
 .main_spin .button {
   top: 70%;
@@ -491,6 +495,39 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.main_welcome_social {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 12rem;
+  left: 50%;
+  flex-direction: column;
+  gap: 1rem;
+  transform: translateX(-50%);
+}
+.main_welcome_social > div img {
+  border-radius: 50rem;
+  width: 3rem;
+}
+.main_welcome_social > div {
+  display: flex;
+  gap: 2rem;
+}
+.main_welcome_social > p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1.6;
+}
+.main_welcome_social > div > a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 #spin_btn {
   cursor: pointer;
