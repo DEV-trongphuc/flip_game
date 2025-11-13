@@ -551,6 +551,7 @@ function spinWheel() {
   bgMusic.play().catch(() => {
     console.log("⚠️ User chưa tương tác, nhạc sẽ phát sau khi click đầu tiên");
   });
+  
   const userData = JSON.parse(localStorage.getItem("game_data") || "{}");
   const previousRewardId = userData?.reward?.id;
 
@@ -710,7 +711,10 @@ function preloadImages(imagePaths) {
 }
 welcome.style.display = "none";
 document.addEventListener("DOMContentLoaded", () => {
- 
+  vouchers.forEach(v => {
+    const img = new Image();
+    img.src = v.img;
+  });
   const wheel = document.querySelector(".main_spin .wheel");
   // Delay nhẹ để có hiệu ứng mượt
   setTimeout(() => {
