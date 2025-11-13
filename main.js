@@ -187,7 +187,9 @@ function endGame(win) {
 
       // Lưu thời gian thắng
       localStorage.setItem("chicken_time", timeNow);
-
+      const flipSound = new Audio("./assets/mp3/win_mp3.mp3");
+      flipSound.volume = 1;
+      flipSound.play();
       // Hiển thị voucher
       mainVoucher.classList.add("active");
       mainInfo.classList.remove("active");
@@ -468,10 +470,6 @@ function preloadImages(imagePaths) {
 Promise.all([preloadImages(animalImgs), preloadImages(vouchersIMG)]).then(
   () => {
     startBtn.addEventListener("click", () => {
-      const bgMusic = new Audio("./assets/mp3/nhacnen.mp3");
-      bgMusic.loop = true;
-      bgMusic.volume = 0.4; // âm lượng nhẹ cho dễ chịu
-      bgMusic.play();
       welcome.style.animation = "slideOut 0.5s ease forwards";
       setTimeout(() => {
         welcome.style.display = "none";
