@@ -558,12 +558,9 @@ function spinWheel() {
   if (isSpinning) return;
   isSpinning = true;
   spinBtn.style.display = "none";
-  const bgMusic = new Audio("./assets/mp3/nhacnen.mp3");
-  bgMusic.loop = true;
-  bgMusic.volume = 0.4; // âm lượng nhẹ cho dễ chịu
-  bgMusic.play().catch(() => {
-    console.log("⚠️ User chưa tương tác, nhạc sẽ phát sau khi click đầu tiên");
-  });
+  const flipSound = new Audio("./assets/mp3/quay.mp3");
+  flipSound.volume = 1;
+  flipSound.play();
 
   const userData = JSON.parse(localStorage.getItem("game_data") || "{}");
   const previousRewardId = userData?.reward?.id;
@@ -590,6 +587,9 @@ function spinWheel() {
     else showVoucher(reward, userData.email);
 
     isSpinning = false;
+    const flipSound = new Audio("./assets/mp3/win_mp3.mp3");
+    flipSound.volume = 1;
+    flipSound.play();
   }, 4500);
 }
 spinBtn.addEventListener("click", () => {
