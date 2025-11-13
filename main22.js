@@ -295,7 +295,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (email) {
       // Đã có email => hiện dòng voucher đã gửi
       emailText.style.display = "block";
-      emailText.innerHTML = `Voucher has been sent to your email <span class="email">${email}</span>`;
+      emailText.innerHTML = `Voucher ${reward.name} has been sent to your email <span class="email">${email}</span>`;
       claimBtn.style.display = "none";
 
       // ✅ đổi ảnh cảm ơn + toggle text
@@ -396,60 +396,7 @@ submitBtn.addEventListener("click", () => {
   localStorage.setItem("game_data", JSON.stringify(gameData));
 
   // 🚀 Gửi request đến API MoMo
-  const payload = {
-    name: name,
-    email: email,
-    phoneNumber: phone || "000",
-    sourceType: "DIRECT_LINK",
-    attribution: {
-      linkKey: "63e36253-ffd7-4b16-ab41-f62bdb32cf51",
-      utm_tracking_id: "9f8a1575-0ed7-4158-b9b9-b7fed8211f2b",
-      slug: "aburi-en-vietnam-j00cc",
-      id: "273f0eaa-1ec5-44e1-a5eb-bb13755ad77f",
-    },
-    timezoneOffset: new Date().getTimezoneOffset(), // tự động lấy giờ
-    optin: false,
-  };
-
-  fetch(
-    "https://sg-be-for-cp-api.momos.io/api/v1/momos/vouchers/273f0eaa-1ec5-44e1-a5eb-bb13755ad77f/dispense",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    }
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      console.log("Voucher response:", data);
-    })
-    .catch((err) => console.error("Voucher request failed:", err));
-
-  // Hiện lại voucher (giữ nguyên phần thưởng cũ)
-  if (gameData.reward) {
-    const freeItem = mainVoucher.querySelector(".free_item");
-    const rewardText = mainVoucher.querySelector(
-      ".text.center:first-of-type b.main_clr"
-    );
-    const emailText = mainVoucher.querySelector(".text.center:nth-of-type(2)");
-    const claimBtn = document.getElementById("claimRewardBtn");
-
-    freeItem.src = gameData.reward.img;
-    rewardText.textContent = gameData.reward.name;
-
-    // Hiện dòng voucher đã gửi và ẩn nút claim
-    emailText.style.display = "block";
-    emailText.innerHTML = `Voucher has been sent to your email <span class="email">${email}</span>`;
-    claimBtn.style.display = "none";
-
-    // ✅ Đổi ảnh cảm ơn và toggle phần nội dung
-    const cgraImg = mainVoucher.querySelector(".cgra");
-    cgraImg.src = "./assets/imgs/thankyou.png";
-    mainVoucher.querySelector(".will_none").style.display = "none";
-    mainVoucher.querySelector(".will_show").style.display = "block";
-  }
+  if (gameData.email) sendVoucherToMomo(gameData, gameData.reward);
 
   // Chuyển giao diện
   mainInfo.classList.remove("active");
@@ -465,58 +412,72 @@ const voucherCode = voucherBox.querySelectorAll("img")[2]; // ảnh voucher (ả
 
 let isSpinning = false;
 
-// const vouchers = [
-//   {
-//     id: 1,
-//     name: "Free 01 Buta Don",
-//     img: "./assets/img_vouchers/Buta Don.jpg",
-//   },
-//   {
-//     id: 2,
-//     name: "Free 01 Kiwami Tonkotsu Ramen",
-//     img: "./assets/img_vouchers/Tonkotsu.jpg",
-//   },
-//   {
-//     id: 3,
-//     name: "20% OFF on total Food Menu",
-//     img: "./assets/img_vouchers/20OFF.jpg",
-//   },
-//   {
-//     id: 4,
-//     name: "30% OFF on Sushi & Sashimi Set (16 kinds)",
-//     img: "./assets/img_vouchers/30off.jpg",
-//   },
-//   {
-//     id: 5,
-//     name: "Cash voucher 200.000 vnd at Aburi-EN and Kiwami Vietnam",
-//     img: "./assets/img_vouchers/haitramka.jpg",
-//   },
-// ];
 const vouchers = [
   {
     id: 1,
-    name: "20% OFF on total Food Menu",
-    img: "./assets/img_vouchers/20OFF.jpg",
+    name: "Free 01 Buta Don",
+    img: "./assets/compress_voucher/voucher1.jpg",
+    attribution: {
+      linkKey: "cfd64d7a-a3a2-4025-a6f7-d328681f21fc",
+      utm_tracking_id: "8fd9b332-a867-4038-9f94-7928fa046e17",
+      slug: "aburi-en-vietnam-j00cc",
+      id: "ff7aa6ba-2864-45c2-b0ec-0092c553776b",
+    },
   },
   {
     id: 2,
-    name: "20% OFF on total Food Menu",
-    img: "./assets/img_vouchers/20OFF.jpg",
+    name: "Free 01 Kiwami Tonkotsu Ramen",
+    img: "./assets/compress_voucher/voucher2.jpg",
+    attribution: {
+      linkKey: "88dbf8e4-df42-4207-bd6f-822c1a2c10aa",
+      utm_tracking_id: "780e4de2-912f-47ea-9907-42d303f492e3",
+      slug: "aburi-en-vietnam-j00cc",
+      id: "943a1c87-82f0-4c34-a910-fd60963c5f85",
+    },
   },
   {
     id: 3,
     name: "20% OFF on total Food Menu",
-    img: "./assets/img_vouchers/20OFF.jpg",
+    img: "./assets/compress_voucher/voucher3.jpg",
+    attribution: {
+      linkKey: "57172460-b7dc-44ab-ae17-ffe4f1415b47",
+      utm_tracking_id: "e2b7ce35-885a-49ca-b38f-2bfb9e2858da",
+      slug: "aburi-en-vietnam-j00cc",
+      id: "273f0eaa-1ec5-44e1-a5eb-bb13755ad77f",
+    },
   },
   {
     id: 4,
-    name: "20% OFF on total Food Menu",
-    img: "./assets/img_vouchers/20OFF.jpg",
+    name: "30% OFF on Sushi & Sashimi Set (16 kinds)",
+    img: "./assets/compress_voucher/voucher4.jpg",
+    attribution: {
+      linkKey: "ff52d57a-7e1a-40f7-87fb-10e19eed8838",
+      utm_tracking_id: "fdd921b4-8862-41df-94e4-e2769510e572",
+      slug: "aburi-en-vietnam-j00cc",
+      id: "78890396-aeab-4d2d-a982-70368a047b2f",
+    },
   },
   {
     id: 5,
-    name: "20% OFF on total Food Menu",
-    img: "./assets/img_vouchers/20OFF.jpg",
+    name: "Discount 200.000đ for dining",
+    img: "./assets/compress_voucher/voucher5.jpg",
+    attribution: {
+      linkKey: "fcc2071f-0e35-443c-929f-a30303531b16",
+      utm_tracking_id: "ea408fae-9040-4a3e-9433-a6975db64747",
+      slug: "aburi-en-vietnam-j00cc",
+      id: "be5e1379-0c29-475f-84a6-6b7ca8068118",
+    },
+  },
+  {
+    id: 6,
+    name: "Discount 500.000đ for dining",
+    img: "./assets/compress_voucher/voucher6.jpg",
+    attribution: {
+      linkKey: "5313a7cc-34ab-483a-af47-aceabb762126",
+      utm_tracking_id: "57518064-3063-47a1-8ad9-9992959057c0",
+      slug: "aburi-en-vietnam-j00cc",
+      id: "e065e53e-2223-47d7-8e57-3e588e564b6d",
+    },
   },
 ];
 
@@ -580,95 +541,114 @@ const vouchers = [
 //     isSpinning = false;
 //   }, 5000);
 // });
-spinBtn.addEventListener("click", () => {
+function spinWheel() {
   if (isSpinning) return;
   isSpinning = true;
   spinBtn.style.display = "none";
 
-  // 🧩 Lấy dữ liệu người chơi
   const userData = JSON.parse(localStorage.getItem("game_data") || "{}");
   const previousRewardId = userData?.reward?.id;
 
-  // 🧩 Lọc danh sách voucher có thể trúng (loại bỏ cái đã trúng trước đó)
-  const availableVouchers = vouchers.filter((v) => v.id !== previousRewardId);
+  // Lọc voucher chưa trúng
+  const available = vouchers.filter((v) => v.id !== previousRewardId);
 
-  // ✅ Random 1 voucher trong availableVouchers theo tỉ lệ (10/30/30/30)
-  const rand = Math.random() * 100;
-  let result;
-  if (rand < 20) result = 1; // 10%
-  else if (rand < 40) result = 2; // 30%
-  else if (rand < 60) result = 3; // 30%
-  else if (rand < 80) result = 4; // 30%
-  else result = 5; // 30%
+  // Random kết quả
+  const randIndex = Math.floor(Math.random() * available.length);
+  const reward = available[randIndex];
 
-  // Nếu result nằm trong loại đã trúng, random lại trong availableVouchers
-  if (previousRewardId === result) {
-    const randomIndex = Math.floor(Math.random() * availableVouchers.length);
-    result = availableVouchers[randomIndex].id;
-  }
-
-  const resultAngles = {
-    1: 20,
-    2: 65,
-    3: 155,
-    4: 110,
-  };
-
-  const extraSpin = 360 * 5;
-  const finalAngle = extraSpin + resultAngles[result];
-
-  // reset và xoay
+  // Quay bánh xe
+  const resultAngles = { 1: 246, 2: 285, 3: 104, 4: 332, 5: 154, 6: 198 };
+  const finalAngle = 360 * 5 + (resultAngles[reward.id] || 0);
   wheel.style.transition = "transform 4.5s";
   wheel.style.transform = `rotate(${finalAngle}deg)`;
 
-  // sau khi quay xong
   setTimeout(() => {
-    const reward = vouchers.find((v) => v.id === result);
-    if (reward) {
-      // ✅ Lưu vào localStorage
-      userData.reward = reward;
-      userData.lastplay = getTodayDate();
-      localStorage.setItem("game_data", JSON.stringify(userData));
+    userData.reward = reward;
+    userData.lastplay = getTodayDate();
+    localStorage.setItem("game_data", JSON.stringify(userData));
 
-      // ✅ Nếu đã có email, phone, name → tự gửi voucher luôn
-      if (userData.email) {
-        // Đã có email → hiện voucher với thank you
-        const mainVoucher = document.querySelector(".main_voucher");
-        const freeItem = mainVoucher.querySelector(".free_item");
-        const rewardText = mainVoucher.querySelector(".text.center b.main_clr");
-        const emailText = mainVoucher.querySelector(
-          ".text.center:nth-of-type(2)"
-        );
-        const claimBtn = document.getElementById("claimRewardBtn");
-
-        // đổi ảnh cảm ơn
-        const cgraImg = mainVoucher.querySelector(".cgra");
-        cgraImg.src = "./assets/imgs/thankyou.png";
-
-        // hiện dòng email + ẩn nút nhận quà
-        emailText.style.display = "block";
-        emailText.innerHTML = `Voucher has been sent to your email <span class="email">${userData.email}</span>`;
-        claimBtn.style.display = "none";
-
-        // ẩn phần will_none, hiện will_show
-        mainVoucher.querySelector(".will_none").style.display = "none";
-        mainVoucher.querySelector(".will_show").style.display = "block";
-
-        // hiện khối voucher
-        mainVoucher.classList.add("active");
-        mainInfo.classList.remove("active");
-      } else {
-        // ✅ Chưa có info → hiện nút Nhận quà
-        showVoucher(reward, userData.email);
-      }
-
-      console.log("🎁 Reward saved:", userData);
-    }
+    if (userData.email) sendVoucherToMomo(userData, reward);
+    else showVoucher(reward, userData.email);
 
     isSpinning = false;
-  }, 5000);
+  }, 4500);
+}
+spinBtn.addEventListener("click", () => {
+  spinWheel();
 });
+function sendVoucherToMomo(user, reward) {
+  const payload = {
+    name: user.name || "-",
+    email: user.email,
+    phoneNumber: user.phone || "000",
+    sourceType: "DIRECT_LINK",
+    attribution: reward.attribution,
+    timezoneOffset: new Date().getTimezoneOffset(),
+    optin: false,
+  };
 
+  // 📨 gửi song song 2 fetch
+  const momoPromise = fetch(
+    `https://sg-be-for-cp-api.momos.io/api/v1/momos/vouchers/${reward.attribution.id}/dispense`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }
+  ).then((res) => res.json());
+
+  const formPromise = fetch(
+    "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfwx7VWvPgOPnVtCm9WGruZF9z4HL6Yklyv0pCYPVe4M3QYvA/formResponse",
+    {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        "entry.122304316": user.name,
+        "entry.648445093": user.email,
+        "entry.1894009205": reward.name, // 👈 nhớ có reward.name nha
+      }),
+    }
+  );
+
+  // 🧩 chạy song song luôn
+  return Promise.all([momoPromise, formPromise])
+    .then(([data]) => {
+      if (data?.errorMessage?.includes("Invalid Email")) {
+        alert("❌ Email không hợp lệ, vui lòng nhập lại!");
+        user.email = "";
+        localStorage.setItem("game_data", JSON.stringify(user));
+        document.querySelector(".main_voucher").classList.remove("active");
+        document.querySelector(".main_info").classList.add("active");
+      } else {
+        showThankYou(user, reward);
+      }
+    })
+    .catch(() => {
+      showThankYou(user, reward);
+    });
+}
+
+function showThankYou(user, reward) {
+  const mainVoucher = document.querySelector(".main_voucher");
+  const freeItem = mainVoucher.querySelector(".free_item");
+  const rewardText = mainVoucher.querySelector(".text.center b.main_clr");
+  const emailText = mainVoucher.querySelector(".text.center:nth-of-type(2)");
+  const claimBtn = document.getElementById("claimRewardBtn");
+  const cgraImg = mainVoucher.querySelector(".cgra");
+
+  freeItem.src = reward.img;
+  rewardText.textContent = reward.name;
+  emailText.style.display = "block";
+  emailText.innerHTML = `Voucher ${reward.name} has been sent to your email <span class="email">${user.email}</span>`;
+  claimBtn.style.display = "none";
+
+  cgraImg.src = "./assets/imgs/thankyou.png";
+  mainVoucher.querySelector(".will_none").style.display = "none";
+  mainVoucher.querySelector(".will_show").style.display = "block";
+  mainVoucher.classList.add("active");
+  document.querySelector(".main_info").classList.remove("active");
+}
 // window.addEventListener("load", () => {
 //   const saved = JSON.parse(localStorage.getItem("game_data") || "{}");
 //   if (saved.reward) {
@@ -725,6 +705,17 @@ function preloadImages(imagePaths) {
 }
 welcome.style.display = "none";
 document.addEventListener("DOMContentLoaded", () => {
+  const bgMusic = new Audio("./assets/mp3/nhacnen.mp3");
+  bgMusic.loop = true;
+  bgMusic.volume = 0.4; // âm lượng nhẹ cho dễ chịu
+  bgMusic.play().catch(() => {
+    console.log("⚠️ User chưa tương tác, nhạc sẽ phát sau khi click đầu tiên");
+  });
+  const wheel = document.querySelector(".main_spin .wheel");
+  // Delay nhẹ để có hiệu ứng mượt
+  setTimeout(() => {
+    wheel.style.transform = "rotate(-60deg)";
+  }, 200);
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
   if (!code) return;

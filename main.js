@@ -8,7 +8,7 @@ function updateTimerBar(progress) {
   timerBarEl.style.setProperty("--progress", progress);
 }
 
-const TOTAL_TIME = 30;
+const TOTAL_TIME = 20;
 let timeLeft = TOTAL_TIME;
 let firstCard = null;
 let secondCard = null;
@@ -100,6 +100,11 @@ function handleClick(index) {
   if (card.flipped || card.matched) return;
 
   card.flipped = true;
+  // 🔈 Âm thanh lật thẻ
+  const flipSound = new Audio("./assets/mp3/flipcard-91468.mp3");
+  flipSound.volume = 1;
+  flipSound.play();
+
   renderCards();
 
   if (!firstCard) {
@@ -187,7 +192,7 @@ function endGame(win) {
       mainVoucher.classList.add("active");
       mainInfo.classList.remove("active");
     } else {
-      alert("⏰ Hết giờ rồi. Chơi lại nha!");
+      alert("⏰ Time's up. Play again!");
       resetGame();
     }
   }, 500);
@@ -197,6 +202,12 @@ function endGame(win) {
 // Khi vào trang
 // ---------------------
 window.addEventListener("DOMContentLoaded", () => {
+  const bgMusic = new Audio("./assets/mp3/nhacnen.mp3");
+  bgMusic.loop = true;
+  bgMusic.volume = 0.4; // âm lượng nhẹ cho dễ chịu
+  bgMusic.play().catch(() => {
+    console.log("⚠️ User chưa tương tác, nhạc sẽ phát sau khi click đầu tiên");
+  });
   const chickenTime = localStorage.getItem("chicken_time");
   const gameData = localStorage.getItem("game_data");
 
