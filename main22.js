@@ -545,7 +545,12 @@ function spinWheel() {
   if (isSpinning) return;
   isSpinning = true;
   spinBtn.style.display = "none";
-
+  const bgMusic = new Audio("./assets/mp3/nhacnen.mp3");
+  bgMusic.loop = true;
+  bgMusic.volume = 0.4; // âm lượng nhẹ cho dễ chịu
+  bgMusic.play().catch(() => {
+    console.log("⚠️ User chưa tương tác, nhạc sẽ phát sau khi click đầu tiên");
+  });
   const userData = JSON.parse(localStorage.getItem("game_data") || "{}");
   const previousRewardId = userData?.reward?.id;
 
@@ -705,12 +710,7 @@ function preloadImages(imagePaths) {
 }
 welcome.style.display = "none";
 document.addEventListener("DOMContentLoaded", () => {
-  const bgMusic = new Audio("./assets/mp3/nhacnen.mp3");
-  bgMusic.loop = true;
-  bgMusic.volume = 0.4; // âm lượng nhẹ cho dễ chịu
-  bgMusic.play().catch(() => {
-    console.log("⚠️ User chưa tương tác, nhạc sẽ phát sau khi click đầu tiên");
-  });
+ 
   const wheel = document.querySelector(".main_spin .wheel");
   // Delay nhẹ để có hiệu ứng mượt
   setTimeout(() => {
