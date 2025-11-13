@@ -202,12 +202,6 @@ function endGame(win) {
 // Khi vào trang
 // ---------------------
 window.addEventListener("DOMContentLoaded", () => {
-  const bgMusic = new Audio("./assets/mp3/nhacnen.mp3");
-  bgMusic.loop = true;
-  bgMusic.volume = 0.4; // âm lượng nhẹ cho dễ chịu
-  bgMusic.play().catch(() => {
-    console.log("⚠️ User chưa tương tác, nhạc sẽ phát sau khi click đầu tiên");
-  });
   const chickenTime = localStorage.getItem("chicken_time");
   const gameData = localStorage.getItem("game_data");
 
@@ -474,6 +468,10 @@ function preloadImages(imagePaths) {
 Promise.all([preloadImages(animalImgs), preloadImages(vouchersIMG)]).then(
   () => {
     startBtn.addEventListener("click", () => {
+      const bgMusic = new Audio("./assets/mp3/nhacnen.mp3");
+      bgMusic.loop = true;
+      bgMusic.volume = 0.4; // âm lượng nhẹ cho dễ chịu
+      bgMusic.play();
       welcome.style.animation = "slideOut 0.5s ease forwards";
       setTimeout(() => {
         welcome.style.display = "none";
