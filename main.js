@@ -124,6 +124,9 @@ function handleClick(index) {
       const imgs = gameBlock.querySelectorAll("img");
       [firstCard.id, secondCard.id].forEach((id) => {
         const img = imgs[id];
+        const flipSound = new Audio("./assets/mp3/correct.mp3");
+        flipSound.volume = 1;
+        flipSound.play();
         img.style.transition = "opacity 0.5s ease";
         setTimeout(() => (img.style.opacity = "0"), 300);
       });
