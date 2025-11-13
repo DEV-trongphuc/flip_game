@@ -364,7 +364,7 @@ const submitBtn = document.querySelector(".submit_btn");
 const status = document.getElementById("status");
 const mainSpin = document.querySelector(".main_spin");
 
-submitBtn.addEventListener("click", () => {
+submitBtn.addEventListener("click", async () => {
   let name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const email = document.getElementById("mail").value.trim();
@@ -395,12 +395,25 @@ submitBtn.addEventListener("click", () => {
   // Lưu lại
   localStorage.setItem("game_data", JSON.stringify(gameData));
 
-  // 🚀 Gửi request đến API MoMo
-  if (gameData.email) sendVoucherToMomo(gameData, gameData.reward);
+  // 🔒 Disable nút gửi để tránh spam
+  submitBtn.disabled = true;
+  submitBtn.style.opacity = "0.6";
+  submitBtn.style.pointerEvents = "none";
 
-  // Chuyển giao diện
-  mainInfo.classList.remove("active");
-  mainVoucher.classList.add("active");
+  try {
+    // 🚀 Gửi song song MoMo + Google Form
+    await sendVoucherToMomo(gameData, gameData.reward);
+    mainInfo.classList.remove("active");
+    mainVoucher.classList.add("active");
+  } catch (err) {
+    console.error("Error sending data:", err);
+    alert("Có lỗi xảy ra khi gửi thông tin, vui lòng thử lại!");
+  } finally {
+    // 🔓 Mở lại nút sau khi xong
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = "1";
+    submitBtn.style.pointerEvents = "auto";
+  }
 });
 
 const spinBtn = document.getElementById("spin_btn");
@@ -551,7 +564,7 @@ function spinWheel() {
   bgMusic.play().catch(() => {
     console.log("⚠️ User chưa tương tác, nhạc sẽ phát sau khi click đầu tiên");
   });
-  
+
   const userData = JSON.parse(localStorage.getItem("game_data") || "{}");
   const previousRewardId = userData?.reward?.id;
 
@@ -711,7 +724,7 @@ function preloadImages(imagePaths) {
 }
 welcome.style.display = "none";
 document.addEventListener("DOMContentLoaded", () => {
-  vouchers.forEach(v => {
+  vouchers.forEach((v) => {
     const img = new Image();
     img.src = v.img;
   });
