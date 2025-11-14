@@ -365,8 +365,8 @@ const status = document.getElementById("status");
 const mainSpin = document.querySelector(".main_spin");
 
 submitBtn.addEventListener("click", async () => {
-  let name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
+  let name = ""
+  const phone = ""
   const email = document.getElementById("mail").value.trim();
 
   if (!email) {
@@ -829,3 +829,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
