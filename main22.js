@@ -396,9 +396,8 @@ submitBtn.addEventListener("click", async () => {
   localStorage.setItem("game_data", JSON.stringify(gameData));
 
   // 🔒 Disable nút gửi để tránh spam
-  submitBtn.disabled = true;
-  submitBtn.style.opacity = "0.6";
-  submitBtn.style.pointerEvents = "none";
+submitBtn.disabled = true;
+submitBtn.style.display = "none";
 
   try {
     // 🚀 Gửi song song MoMo + Google Form
@@ -411,8 +410,7 @@ submitBtn.addEventListener("click", async () => {
   } finally {
     // 🔓 Mở lại nút sau khi xong
     submitBtn.disabled = false;
-    submitBtn.style.opacity = "1";
-    submitBtn.style.pointerEvents = "auto";
+    submitBtn.style.display = "block";
   }
 });
 
@@ -829,4 +827,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
 
